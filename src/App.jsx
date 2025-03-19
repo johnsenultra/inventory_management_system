@@ -1,10 +1,19 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SideBar } from "./components/SideBar";
+import { Dashboard } from "./components/Dashboard";
+import { Equipment } from "./components/Equipment";
 
 function App() {
 
   return (
-    <>
-      <h1>Inventory management system</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={ <SideBar /> }>
+          <Route index element={<Dashboard />} />
+          <Route path="equipment" element={<Equipment />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
