@@ -13,13 +13,14 @@ import {
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { tabsClasses } from '@mui/material/Tabs';
+import { Settings2 } from "lucide-react";
 import { CircleGauge } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
-const appBarHeight = 64;
+const appBarHeight = 68;
 
-const AppBar = styled(MuiAppBar)(({ theme }) => ({
+const AppBar = styled(MuiAppBar)(() => ({
    height: appBarHeight,
    boxSizing: "border-box",
    display: "block",
@@ -27,11 +28,8 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
    bgcolor: 'background.paper',
    backgroundImage: 'none',
    borderBottom: '1px solid',
-   top: 'var(--template-frame-height, 0px)',
-   zIndex: theme.zIndex.drawer + 1,
    color: "#0C1017",
    width: `calc(100% - ${drawerWidth}px)`,
-   marginLeft: drawerWidth,
 }));
 
 const Drawer = styled(MuiDrawer)(({ theme }) => ({
@@ -51,7 +49,6 @@ const Drawer = styled(MuiDrawer)(({ theme }) => ({
 
 const Toolbar = styled(MuiToolbar)({
    width: '100%',
-   // padding: '12px',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'start',
@@ -86,7 +83,7 @@ export const SideBar = () => {
                   <Typography sx={{ letterSpacing: 1.5, fontSize: "1.5rem", ml: 2 }}>NDRRMC</Typography>
                </Stack>
 
-               <Divider sx={{ my: 1 }} />
+               <Divider sx={{ mt: 1, mb: 1, background: "#FFFFE8", opacity: 1 }} />
 
                {/* Navigation Links */}
                <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
@@ -125,7 +122,7 @@ export const SideBar = () => {
                            color: "#FFFFE8"
                         }}
                      >
-                     
+                        <Settings2 size={20} />
                      </ListItemIcon>
                      <ListItemText primary="Equipment" />
                   </ListItemButton>
@@ -134,15 +131,9 @@ export const SideBar = () => {
          </Drawer>
          
          {/* Main content */}
-         <Box component="main" sx={{flexGrow: 1,}}>
-            <Outlet 
-               sx={{ 
-                  p: 3,
-                  width: { sm: `calc(100% - ${drawerWidth}px)` },
-                  ml: { sm: `${drawerWidth}px` },
-                  mt: `${appBarHeight}px`,
-               }}
-            />
+         <Box component="main" sx={{ flexGrow: 1, pt: 8 }}>
+            <Outlet />
+
          </Box>
       </Box>
    );
