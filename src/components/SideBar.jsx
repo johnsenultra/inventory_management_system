@@ -68,7 +68,7 @@ export const SideBar = () => {
          {/* AppBar */}
          <AppBar position="fixed" sx={{ backgroundColor: "#0C1017" }}>
             <Toolbar>
-               <Stack direction="row" alignItems="center" sx={{ height: '100%', textTransform: "uppercase", color: "#FFFFE8" }}>
+               <Stack direction="row" alignItems="center" sx={{ mt: 1, height: "100%", textTransform: "uppercase", color: "#FFFFE8" }}>
                   <Typography variant="h6">Inventory Management System</Typography>
                </Stack>
             </Toolbar>
