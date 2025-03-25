@@ -37,7 +37,7 @@ const Drawer = styled(MuiDrawer)(({ theme }) => ({
    flexShrink: 0,
    '& .MuiDrawer-paper': {
       width: drawerWidth,
-      backgroundColor: "#0C1017",
+      backgroundColor: "#242A37",
       color: "#FFFFE8",
       boxSizing: 'border-box',
       position: 'fixed',
@@ -66,7 +66,7 @@ export const SideBar = () => {
    return (
       <Box sx={{ display: 'flex' }}>
          {/* AppBar */}
-         <AppBar position="fixed" sx={{ backgroundColor: "#0C1017" }}>
+         <AppBar position="fixed" sx={{ backgroundColor: "#242A37" }}>
             <Toolbar>
                <Stack direction="row" alignItems="center" sx={{ mt: 1, height: "100%", textTransform: "uppercase", color: "#FFFFE8" }}>
                   <Typography variant="h6">Inventory Management System</Typography>
