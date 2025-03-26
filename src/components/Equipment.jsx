@@ -36,10 +36,20 @@ export const Equipment = () => {
       fetchInventory();
    }, []);
 
-   console.log("This is the inventory equipment component!")
    return (
       <Box>
-         <Typography>Equipment Inventory</Typography>
+         {/*  Header  */}
+         <Box>
+           <Typography 
+               sx={{
+                  fontSize: "1.5rem",
+                  fontWeight: 600,
+                  mt: 1,
+               }}
+            >
+            Equipment List
+           </Typography>
+         </Box>
          <TableContainer component={Paper} sx={{ boxShadow: 3, mt: 3 }}>
             <Table>
                <TableHead>
