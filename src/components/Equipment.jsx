@@ -8,13 +8,16 @@ import {
    Paper,
    TableCell,
    TableBody,
+   Button,
 } from "@mui/material"
 import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
+import { AddEquipment } from "./AddEq";
 
 export const Equipment = () => {
 
    const [inventory, setInventory] = useState([])
+   const [isOpen, setIsOpen] = useState(false);
 
    const fetchInventory = async () => {
       const { data: equipment_inventory, error} = await supabase
@@ -23,6 +26,7 @@ export const Equipment = () => {
 
       if(error) {
          console.log("Error fetchinng quipment inventory", error)
+         return;
       }
 
       if(equipment_inventory) {
@@ -36,19 +40,39 @@ export const Equipment = () => {
       fetchInventory();
    }, []);
 
+   const handleOpenAddEquipment = () => {
+      setIsOpen(true);
+   }
+
+   const handleCloseEquipment = () => {
+      setIsOpen(false),
+      fetchInventory();
+   }
+
    return (
-      <Box>
+      <div className="p-3 ">
          {/*  Header  */}
          <Box>
-           <Typography 
+            <Typography 
                sx={{
                   fontSize: "1.5rem",
                   fontWeight: 600,
                   mt: 1,
                }}
             >
-            Equipment List
-           </Typography>
+               Equipment List
+            </Typography>
+            <Box>
+               <Button
+                  variant="contained"
+                  onClick={handleOpenAddEquipment}
+               >
+                  Add Equipment
+               </Button>
+
+               { isOpen && <AddEquipment onClose={handleCloseEquipment} /> }
+               
+            </Box>
          </Box>
          <TableContainer component={Paper} sx={{ boxShadow: 3, mt: 3 }}>
             <Table>
@@ -68,12 +92,15 @@ export const Equipment = () => {
                         <TableCell>{invent.category}</TableCell>
                         <TableCell>{invent.quantity}</TableCell>
                         <TableCell>{invent.status}</TableCell>
-                        <TableCell>{invent.added_at}</TableCell>
+                        <TableCell>
+                           {new Date(invent.added_at).toLocaleDateString("en-US")}
+
+                        </TableCell>
                      </TableRow>
                   ))}
                </TableBody>
             </Table>            
          </TableContainer>
-      </Box>
+      </div>
    )
 }
