@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SideBar } from "./components/SideBar";
 import { Dashboard } from "./components/Dashboard";
 import { Equipment } from "./components/Equipment";
+import "./css/index.css";
 
 function App() {
 
