@@ -8,6 +8,10 @@ import {
    TextField,
    Button,
    Alert,
+   FormControl,
+   InputLabel,
+   Select,
+   MenuItem,
 } from "@mui/material";
 import { supabase } from "../utils/supabase";
 import { useState } from "react";
@@ -134,23 +138,30 @@ export const AddEquipment = ({ onClose }) => {
                  
                   </Grid>
                   <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField
-                        label="Status"
-                        size="small"
-                        fullWidth
-                        name="status"
-                        type="text"
-                        variant="outlined"
-                        onChange={handleChange }
-                        value={equipment.status}
-                     />
+                     <FormControl fullWidth>
+                        <InputLabel>Status</InputLabel>
+                        <Select 
+                           label="Status"
+                           size="small"
+                           fullWidth
+                           name="status"
+                           type="text"
+                           variant="outlined"
+                           onChange={handleChange }
+                           value={equipment.status}
+                        >
+                           <MenuItem value={"Available"}>Available</MenuItem>
+                           <MenuItem value={"Serviceable"}>Serviceable</MenuItem>
+                           <MenuItem value={"Not Serviceable"}>Not Serviceable</MenuItem>
+                        </Select>
+
+                     </FormControl>
                   </Grid>
                  
                   <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField
+                     <TextField fullWidth
                         label="Added at"
                         size="small"
-                        fullWidth
                         name="added_at"
                         type="date"
                         variant="outlined"
@@ -165,6 +176,14 @@ export const AddEquipment = ({ onClose }) => {
                      type="submit"
                      variant="contained"
                      disabled={isAdding}
+                     sx={{
+                        fontWeight: "bold",
+                        width: 125,
+                        transition: "background-color: 0.5s",
+                        "&:hover": {
+                           backgroundColor: "#242A37"
+                        }
+                     }}
                   >
                      { isAdding ? "Adding..." : "ADD +" }
                   </Button>
