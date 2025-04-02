@@ -107,14 +107,14 @@ export const Equipment = () => {
          </Box>
          <TableContainer component={Paper} sx={{ boxShadow: 3, mt: 3 }}>
             <Table>
-               <TableHead>
+               <TableHead sx={{ background: "#242A37" }}>
                   <TableRow sx={{ fontSize: "2.rem" }}>
-                     <TableCell sx={{ fontWeight: "bold" }}>Equipment Name</TableCell>
-                     <TableCell sx={{ fontWeight: "bold" }}>Category</TableCell>
-                     <TableCell sx={{ fontWeight: "bold" }}>Stock</TableCell>
-                     <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
-                     <TableCell sx={{ fontWeight: "bold" }}>Added At</TableCell>
-                     <TableCell sx={{ fontWeight: "bold" }}>Action</TableCell>
+                     <TableCell sx={{ fontWeight: "bold", color: "#FFFFE8" }}>Equipment Name</TableCell>
+                     <TableCell sx={{ fontWeight: "bold", color: "#FFFFE8" }}>Category</TableCell>
+                     <TableCell sx={{ fontWeight: "bold", color: "#FFFFE8" }}>Quantity</TableCell>
+                     <TableCell sx={{ fontWeight: "bold", color: "#FFFFE8" }}>Status</TableCell>
+                     <TableCell sx={{ fontWeight: "bold", color: "#FFFFE8" }}>Added At</TableCell>
+                     <TableCell sx={{ fontWeight: "bold", color: "#FFFFE8" }}>Action</TableCell>
                   </TableRow>
                </TableHead>
                <TableBody>
