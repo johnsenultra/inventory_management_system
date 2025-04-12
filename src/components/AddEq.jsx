@@ -141,7 +141,6 @@ export const AddEquipment = ({ onClose }) => {
                      <FormControl fullWidth>
                         <InputLabel>Status</InputLabel>
                         <Select 
-                           label="Status"
                            size="small"
                            fullWidth
                            name="status"
@@ -167,6 +166,7 @@ export const AddEquipment = ({ onClose }) => {
                         variant="outlined"
                         onChange={handleChange}
                         value={equipment.added_at}
+                        InputLabelProps={{ shrink: true }}
                      />
                   </Grid>
                </Grid>
