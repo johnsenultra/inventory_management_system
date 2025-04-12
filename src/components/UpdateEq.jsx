@@ -68,6 +68,8 @@ export const UpdateEquipment = ({ open, onClose, inventoryId }) => {
                         label="Equipment Name"
                         size="small"
                         fullWidth
+                        type="text"
+                        variant="outlined"
                      />
                   </Grid>
                   <Grid size={{ xs: 6, md: 6 }}>
@@ -75,6 +77,8 @@ export const UpdateEquipment = ({ open, onClose, inventoryId }) => {
                         label="Category"
                         size="small"
                         fullWidth
+                        type="text"
+                        variant="outlined"
                      />
                   </Grid>
                   <Grid size={{ xs: 6, md: 6 }}>
@@ -82,6 +86,8 @@ export const UpdateEquipment = ({ open, onClose, inventoryId }) => {
                         label="Quantity"
                         size="small"
                         fullWidth
+                        type="number"
+                        variant="outlined"
                      />
                   </Grid>
                   <Grid size={{ xs: 6, md: 6 }}>
@@ -91,12 +97,24 @@ export const UpdateEquipment = ({ open, onClose, inventoryId }) => {
                            label="Status"
                            size="small"
                            fullWidth
-                           
+                           type="text"
+                           variant="outlined"
                         >
-                           <MenuItem/>
-
+                           <MenuItem value={"Availabe"}>Available</MenuItem>
+                           <MenuItem value={"Serviceable"}>Serviceable</MenuItem>
+                           <MenuItem value={"Not Serviceable"}>Not Serviceable</MenuItem>
                         </Select>
                      </FormControl>
+                  </Grid>
+
+                  <Grid size={{ xs: 6, md: 6 }}>
+                     <TextField 
+                        label="Added at"
+                        size="smajll"
+                        fullWidth
+                        type="date"
+                        InputLabelProps={{ shrink: true }}
+                     />
                   </Grid>
                </Grid>
             </Box>
