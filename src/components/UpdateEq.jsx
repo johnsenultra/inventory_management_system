@@ -13,27 +13,79 @@ import {
 } from "@mui/material";
 import { supabase } from "../utils/supabase";
 import { useState } from "react";
+import { useEffect } from "react";
 
-export const UpdateEquipment = ({ open, onClose, inventoryId }) => {
+export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
    
-   const [updateEquipment, setUpdateEquipment] = useState({
+   const [isLoading, setIsLoading] = useState(false);
+   const [error, setError] = useState(null);
+   const [success, setSucces] = useState(null);
+   const [equipmentData, setEquipmentData] = useState({
       equipment_name: "",
       category: "",
       quantity: "",
       status: "",
       added_at: new Date().toISOString().split("T")[0]
    })
-   const [isLoading, setIsLoading] = useState(false);
 
-   const handleUpdate = async () => {
+   useEffect(() => {
+      const fetchEquipmentData = async () => {
+         if(!inventoryId) return;
+
+         setIsLoading(true);
+         try {
+            const { data, error: supabaseError } = await supabase
+            .from("equipment_inventory")
+            .select("*")
+            .eq('id', inventoryId)
+            .single();
+
+            if (supabaseError) throw supabaseError;
+
+            if (data) {
+               setEquipmentData({
+                  equipment_name: data.equipment_name,
+                  category: data.category,
+                  quantity: data.quantity,
+                  status: data.status,
+                  added_at: new Date().toISOString().split("T")[0]
+               })
+            }
+         } catch (err) {
+            console.error("Error fetching equipment data", err)
+            setError("Faied to load equipment data");
+         } finally {
+            setIsLoading(true);
+         }
+      }
+
+      fetchEquipmentData();
+   }, [inventoryId]);
+
+   const handleChange = (e) => {
+      const { name, value } = e.taget;
+      setEquipmentData(prev => ({
+         ...prev,
+         [name]: value
+      }))
+   }
+
+   const handleUpdate = async (e) => {
+      e.preventDefault();
       setIsLoading(true);
+      setError(null)
 
       try {
-         const { data, error: supabaseError } = await supabase
+         const { error: supabaseError } = await supabase
          .from("equipment_inventory")
          .update({
-            
+            equipment_name: equipmentData.equipment_name,
+            category: equipmentData.category,
+            quantity: equipmentData.quantity,
+            status: equipmentData.status,
+            added_at: new Date().toISOString()
          })
+         .eq('id', inventoryId);
 
          if(supabaseError) throw supabaseError;
 
@@ -61,46 +113,56 @@ export const UpdateEquipment = ({ open, onClose, inventoryId }) => {
          >
             <Box component="form" direction="row">
                {/* // Status Alert here... */}
-
                <Grid container spacing={2}>
                   <Grid size={{ xs: 6, md: 6 }}>
                      <TextField 
+                        name="equipment_name"
                         label="Equipment Name"
                         size="small"
                         fullWidth
                         type="text"
                         variant="outlined"
+                        value={equipmentData.equipment_name}
+                        onChange={handleChange}
                      />
                   </Grid>
                   <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField 
+                     <TextField
+                        name="category"
                         label="Category"
                         size="small"
                         fullWidth
                         type="text"
                         variant="outlined"
+                        value={equipmentData.category}
+                        onChange={handleChange}
                      />
                   </Grid>
                   <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField 
+                     <TextField
+                        name="quantity"
                         label="Quantity"
                         size="small"
                         fullWidth
                         type="number"
                         variant="outlined"
+                        value={equipmentData.quantity}
                      />
                   </Grid>
                   <Grid size={{ xs: 6, md: 6 }}>
                      <FormControl fullWidth>
                         <InputLabel>Status</InputLabel>
                         <Select
+                           name="status"
                            label="Status"
                            size="small"
                            fullWidth
                            type="text"
                            variant="outlined"
+                           value={equipmentData.status}
+                           onChange={handleChange}
                         >
-                           <MenuItem value={"Availabe"}>Available</MenuItem>
+                           <MenuItem value={"Available"}>Available</MenuItem>
                            <MenuItem value={"Serviceable"}>Serviceable</MenuItem>
                            <MenuItem value={"Not Serviceable"}>Not Serviceable</MenuItem>
                         </Select>
@@ -108,12 +170,16 @@ export const UpdateEquipment = ({ open, onClose, inventoryId }) => {
                   </Grid>
 
                   <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField 
+                     <TextField
+                        name="added_at"
                         label="Added at"
-                        size="smajll"
+                        size="small"
                         fullWidth
                         type="date"
+                        variant="outlined"
                         InputLabelProps={{ shrink: true }}
+                        value={equipmentData.added_at}
+                        onChange={handleChange}
                      />
                   </Grid>
                </Grid>
