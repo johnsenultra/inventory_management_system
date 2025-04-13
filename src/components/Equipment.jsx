@@ -11,33 +11,45 @@ import {
    Button,
    IconButton,
    Alert,
+   Tooltip,
 } from "@mui/material"
+import { Trash2Icon, EditIcon } from "lucide-react";
 import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
 import { AddEquipment } from "./AddEq";
-import { Trash2Icon } from "lucide-react";
+import { UpdateEquipment } from "./UpdateEq";
+
 
 export const Equipment = () => {
 
    const [inventory, setInventory] = useState([])
+   const [isLoading, setIsLoading] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
    const [success, setSucces] = useState(false)
+   const [updateModalOpen, setUpdateModalOpen] = useState(false);
+   const [selectedInventoryId, setSelectedInventoryId] = useState(null);
+   
 
    const fetchInventory = async () => {
-      const { data: equipment_inventory, error} = await supabase
+      setIsLoading(true);
+      try {
+         const { data: equipment_inventory, error} = await supabase
          .from("equipment_inventory")
-         .select("*");
+         .select("*")
+         .order("added_at", { ascending: false });
 
       if(error) {
          console.log("Error fetchinng quipment inventory", error)
          return;
       }
-
-      if(equipment_inventory) {
-         setInventory(equipment_inventory);
-         console.log("EQUIPMENT LIST: ", equipment_inventory);
-      }
       
+      setInventory(equipment_inventory  || [] )
+      
+      } catch (err) {
+         console.err(err);
+      } finally {
+         setIsLoading(false);
+      }      
    }
 
    useEffect(() => {
@@ -67,19 +79,24 @@ export const Equipment = () => {
          if(supabaseError) throw supabaseError;
          
          // Update the local state to remove the deleted item
-         setInventory((prevInvent) => 
-            prevInvent.filter((invent) => invent.id !== id)
+         setInventory((prev) => 
+            prev.filter((item) => item.id !== id)
          );
 
-         setSucces(true);
-         setTimeout(() => setSucces(false), 300)
+         setSucces("Item deleted successfully");
+         setTimeout(() => setSucces(null), 3000)
       } catch (err) {
          console.error("Delete error", err)
       }
    }
 
+   const handleUpdateModal = (inventoryId) => {
+      setSelectedInventoryId(inventoryId);
+      setUpdateModalOpen(true);
+   }
+
    return (
-      <div className="p-3 ">
+      <Box sx={{ p: 3 }}>
          {/*  Header  */}
          <Box>
             <Typography 
@@ -103,7 +120,8 @@ export const Equipment = () => {
                { isOpen && <AddEquipment onClose={handleCloseEquipment} /> }
                
             </Box>
-            {success && <Alert severity="success" sx={{ my: 2 }}>Item deleted!</Alert>}
+
+            {success && <Alert severity="success" sx={{ my: 2 }}>{success}</Alert>}
          </Box>
          <TableContainer component={Paper} sx={{ boxShadow: 3, mt: 3 }}>
             <Table>
@@ -128,17 +146,39 @@ export const Equipment = () => {
                            {new Date(invent.added_at).toLocaleDateString("en-US")}
                         </TableCell>
                         <TableCell>
-                           <IconButton
-                              onClick={() => handleDelete(invent.id)}
-                           >
-                              <Trash2Icon size={24} />
-                           </IconButton>
+                           <Tooltip title="Delete" arrow>
+                              <IconButton
+                                 onClick={() => handleDelete(invent.id)}
+                              >
+                                 <Trash2Icon size={24} />
+                              </IconButton>
+                           </Tooltip>
+
+                           <Tooltip title="Edit" arrow>
+                              <IconButton
+                                 onClick={() => handleUpdateModal(invent.id)}
+                              >
+                                 <EditIcon size={25} />
+                              </IconButton>
+                           </Tooltip>
+
                         </TableCell>
+
+                           
                      </TableRow>
                   ))}
                </TableBody>
             </Table>            
          </TableContainer>
-      </div>
+
+         <Box>
+            {/* Modal */}
+            <UpdateEquipment 
+               open={updateModalOpen}
+               onClose={() => setUpdateModalOpen(false)}
+               inventoryId={selectedInventoryId}
+            />
+         </Box>
+      </Box>
    )
 }
