@@ -10,6 +10,7 @@ import {
    InputLabel,
    Select,
    MenuItem,
+   Button,
 } from "@mui/material";
 import { supabase } from "../utils/supabase";
 import { useState } from "react";
@@ -20,6 +21,7 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
    const [isLoading, setIsLoading] = useState(false);
    const [error, setError] = useState(null);
    const [success, setSucces] = useState(null);
+   const [isUpdating, setIsUpdating] = useState(false)
    const [equipmentData, setEquipmentData] = useState({
       equipment_name: "",
       category: "",
@@ -28,9 +30,10 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
       added_at: new Date().toISOString().split("T")[0]
    })
 
+
    useEffect(() => {
       const fetchEquipmentData = async () => {
-         if(!inventoryId) return;
+         if (!inventoryId) return
 
          setIsLoading(true);
          try {
@@ -52,10 +55,10 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
                })
             }
          } catch (err) {
-            console.error("Error fetching equipment data", err)
-            setError("Faied to load equipment data");
+            console.error("Error fetching equipment data", err);
+            setError("Failed to load equipment data");
          } finally {
-            setIsLoading(true);
+            setIsLoading(false);
          }
       }
 
@@ -63,7 +66,7 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
    }, [inventoryId]);
 
    const handleChange = (e) => {
-      const { name, value } = e.taget;
+      const { name, value } = e.target;
       setEquipmentData(prev => ({
          ...prev,
          [name]: value
@@ -111,11 +114,11 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
                height: 300,
             }}
          >
-            <Box component="form" direction="row">
+            <Box component="form" direction="row" onSubmit={handleUpdate}>
                {/* // Status Alert here... */}
                <Grid container spacing={2}>
                   <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField 
+                     <TextField
                         name="equipment_name"
                         label="Equipment Name"
                         size="small"
@@ -147,6 +150,7 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
                         type="number"
                         variant="outlined"
                         value={equipmentData.quantity}
+                        onChange={handleChange}
                      />
                   </Grid>
                   <Grid size={{ xs: 6, md: 6 }}>
@@ -183,6 +187,24 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
                      />
                   </Grid>
                </Grid>
+               
+               <Box sx={{ textAlign: "center", mt: 10 }}>
+                  <Button 
+                     type="submit"
+                     variant="contained"
+                     disabled={isUpdating}
+                     sx={{
+                        fontWeight: "bold",
+                        width: 125,
+                        transition: "background-color: 0.5s",
+                        "&:hover": {
+                           backgroundColor: "#242A37"
+                        }
+                     }}
+                  >
+                     { isUpdating ? "Updating..." : "UPDATE" }
+                  </Button>
+               </Box>
             </Box>
          </Paper>
       </Dialog>
