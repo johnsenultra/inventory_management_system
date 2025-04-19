@@ -11,6 +11,7 @@ import {
    Select,
    MenuItem,
    Button,
+   Alert,
 } from "@mui/material";
 import { supabase } from "../utils/supabase";
 import { useState } from "react";
@@ -20,7 +21,7 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
    
    const [isLoading, setIsLoading] = useState(false);
    const [error, setError] = useState(null);
-   const [success, setSucces] = useState(null);
+   const [success, setSucces] = useState(false);
    const [isUpdating, setIsUpdating] = useState(false)
    const [equipmentData, setEquipmentData] = useState({
       equipment_name: "",
@@ -92,8 +93,13 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
 
          if(supabaseError) throw supabaseError;
 
+         setSucces(true);
+         setTimeout(() => {
+            onClose(setSucces(false));
+         }, 1000 * 2)
       } catch (err) {
          console.err("Error Updating Equipment", err)
+         setError(err.message || "Failed to update equipment.")
       } finally {
          setIsLoading(false);
       }
@@ -107,15 +113,19 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
          <DialogTitle>
             <Typography>Update Equipment</Typography>   
          </DialogTitle>
-         <Paper 
+         <Paper
+            elevation={3}
             sx={{
                p: 2,
-               width: 550,
-               height: 300,
+               width: 510,
+               height: 350,
+               borderRadius: 2
             }}
          >
             <Box component="form" direction="row" onSubmit={handleUpdate}>
                {/* // Status Alert here... */}
+               { success && <Alert severity="success" sx={{ mb: 2 }}>Equipment updated!</Alert> }
+
                <Grid container spacing={2}>
                   <Grid size={{ xs: 6, md: 6 }}>
                      <TextField
