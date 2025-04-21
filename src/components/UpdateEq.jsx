@@ -133,6 +133,7 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
             >
                {/* // Status Alert here... */}
                { error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert> }
+               { isLoading && <Alert severity="error" sx={{ mb: 2 }}>Error Fetching the data</Alert> }
                { success && <Alert severity="success" sx={{ mb: 2 }}>Equipment updated!</Alert> }
 
                <Grid container spacing={2}>
