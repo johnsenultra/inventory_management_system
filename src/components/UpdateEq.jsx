@@ -210,6 +210,7 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
                <Box sx={{ textAlign: "center", mt: 10 }}>
                   <Button 
                      type="submit"
+                     loading={isUpdating}
                      variant="contained"
                      disabled={isUpdating}
                      sx={{
