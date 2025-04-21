@@ -67,7 +67,7 @@ export const AddEquipment = ({ onClose }) => {
          setTimeout(() => {
             setEquipment(data);
             onClose();
-         }, 1000)
+         }, 1000 * 2)
       } catch (err) {
          console.error("Error adding equipment:", err);
          setError(err.message || "Failed to add equipment. Check RLS policies.");
@@ -142,6 +142,7 @@ export const AddEquipment = ({ onClose }) => {
                         <InputLabel>Status</InputLabel>
                         <Select 
                            size="small"
+                           label="Status"
                            fullWidth
                            name="status"
                            type="text"
