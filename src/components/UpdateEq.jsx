@@ -76,8 +76,15 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
 
    const handleUpdate = async (e) => {
       e.preventDefault();
-      setIsLoading(true);
+      setIsUpdating(true);
       setError(null)
+
+      // Input validation
+      if(!equipmentData.equipment_name || !equipmentData.category || !equipmentData.quantity || !equipmentData.status || !equipmentData.added_at) {
+         setError("Please fill all the required fields");
+         setIsUpdating(false);
+         return;
+      }
 
       try {
          const { error: supabaseError } = await supabase
@@ -115,15 +122,17 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
          </DialogTitle>
          <Paper
             elevation={3}
-            sx={{
-               p: 2,
-               width: 510,
-               height: 350,
-               borderRadius: 2
-            }}
          >
-            <Box component="form" direction="row" onSubmit={handleUpdate}>
+            <Box component="form" direction="row" onSubmit={handleUpdate}
+               sx={{
+                  p: 2,
+                  width: 510,
+                  height: 400,
+                  borderRadius: 2
+               }}
+            >
                {/* // Status Alert here... */}
+               { error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert> }
                { success && <Alert severity="success" sx={{ mb: 2 }}>Equipment updated!</Alert> }
 
                <Grid container spacing={2}>
