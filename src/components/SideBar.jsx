@@ -14,6 +14,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { tabsClasses } from '@mui/material/Tabs';
 import { Settings2 } from "lucide-react";
+import { LayoutDashboard } from "lucide-react";
 import { CircleGauge } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 
@@ -101,7 +102,7 @@ export const SideBar = () => {
                            color: "#FFFFE8"
                         }}
                      >
-                        <CircleGauge size={20} />
+                        <LayoutDashboard size={20} />
                      </ListItemIcon>
                      <ListItemText primary="Dashboard" />
                   </ListItemButton>
