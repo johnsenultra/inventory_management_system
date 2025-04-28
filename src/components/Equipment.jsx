@@ -12,6 +12,7 @@ import {
    IconButton,
    Alert,
    Tooltip,
+   LinearProgress,
 } from "@mui/material"
 import { Trash2Icon, EditIcon } from "lucide-react";
 import { supabase } from "../utils/supabase";
@@ -22,10 +23,11 @@ import { UpdateEquipment } from "./UpdateEq";
 
 export const Equipment = () => {
 
-   const [inventory, setInventory] = useState([])
+   const [inventory, setInventory] = useState([]);
    const [isLoading, setIsLoading] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
-   const [success, setSucces] = useState(false)
+   const [success, setSucces] = useState(false);
+   const [error, setError] = useState(null);
    const [updateModalOpen, setUpdateModalOpen] = useState(false);
    const [selectedInventoryId, setSelectedInventoryId] = useState(null);
    
@@ -33,19 +35,17 @@ export const Equipment = () => {
    const fetchInventory = async () => {
       setIsLoading(true);
       try {
-         const { data: equipment_inventory, error} = await supabase
+         const { data, error} = await supabase
          .from("equipment_inventory")
          .select("*")
          .order("added_at", { ascending: false });
 
-      if(error) {
-         console.log("Error fetchinng quipment inventory", error)
-         return;
-      }
-      
-      setInventory(equipment_inventory  || [] )
+      if(error) throw error;
+
+      setInventory(data || []);
       
       } catch (err) {
+         setError("Failed to fetch inventory");
          console.err(err);
       } finally {
          setIsLoading(false);
@@ -121,8 +121,9 @@ export const Equipment = () => {
                
             </Box>
             
-            {/* { isLoading && <Alert severity="error" sx={{ my: 2 }}>{isLoading}</Alert> } */}
-            {success && <Alert severity="success" sx={{ my: 2 }}>{success}</Alert>}
+            { isLoading && <LinearProgress sx={{ my: 2 }} /> }
+            { error && <Alert severity="errir" sx={{ my: 2 }}>{error}</Alert>}
+            { success && <Alert severity="success" sx={{ my: 2 }}>{success}</Alert>}
 
          </Box>
          <TableContainer component={Paper} sx={{ boxShadow: 3, mt: 3 }}>
