@@ -12,6 +12,7 @@ import {
    MenuItem,
    Button,
    Alert,
+   CircularProgress,
 } from "@mui/material";
 import { supabase } from "../utils/supabase";
 import { useState } from "react";
@@ -109,6 +110,7 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
          setError(err.message || "Failed to update equipment.")
       } finally {
          setIsLoading(false);
+         setIsUpdating(false);
       }
    }
 
@@ -117,8 +119,8 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
          open={open}
          onClose={onClose}
       >
-         <DialogTitle>
-            <Typography>Update Equipment</Typography>   
+         <DialogTitle sx={{ mb: 2 }}>
+            <Typography variant="h6">Update Equipment</Typography>   
          </DialogTitle>
          <Paper
             elevation={3}
@@ -127,92 +129,99 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
                sx={{
                   p: 2,
                   width: 510,
-                  height: 400,
+                  height: 380,
                   borderRadius: 2
                }}
             >
                {/* // Status Alert here... */}
                { error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert> }
-               { isLoading && <Alert severity="error" sx={{ mb: 2 }}>Error Fetching the data</Alert> }
                { success && <Alert severity="success" sx={{ mb: 2 }}>Equipment updated!</Alert> }
 
-               <Grid container spacing={2}>
-                  <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField
-                        name="equipment_name"
-                        label="Equipment Name"
-                        size="small"
-                        fullWidth
-                        type="text"
-                        variant="outlined"
-                        value={equipmentData.equipment_name}
-                        onChange={handleChange}
-                     />
-                  </Grid>
-                  <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField
-                        name="category"
-                        label="Category"
-                        size="small"
-                        fullWidth
-                        type="text"
-                        variant="outlined"
-                        value={equipmentData.category}
-                        onChange={handleChange}
-                     />
-                  </Grid>
-                  <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField
-                        name="quantity"
-                        label="Quantity"
-                        size="small"
-                        fullWidth
-                        type="number"
-                        variant="outlined"
-                        value={equipmentData.quantity}
-                        onChange={handleChange}
-                     />
-                  </Grid>
-                  <Grid size={{ xs: 6, md: 6 }}>
-                     <FormControl fullWidth>
-                        <InputLabel>Status</InputLabel>
-                        <Select
-                           name="status"
-                           label="Status"
+               {  isLoading 
+               
+                  ?
+                     <CircularProgress />
+                  :
+
+                  <Grid container spacing={2}>
+                     <Grid size={{ xs: 6, md: 6 }}>
+                        <TextField
+                           name="equipment_name"
+                           label="Equipment Name"
                            size="small"
                            fullWidth
                            type="text"
                            variant="outlined"
-                           value={equipmentData.status}
+                           value={equipmentData.equipment_name}
                            onChange={handleChange}
-                        >
-                           <MenuItem value={"Available"}>Available</MenuItem>
-                           <MenuItem value={"Serviceable"}>Serviceable</MenuItem>
-                           <MenuItem value={"Not Serviceable"}>Not Serviceable</MenuItem>
-                        </Select>
-                     </FormControl>
+                        />
+                     </Grid>
+                     <Grid size={{ xs: 6, md: 6 }}>
+                        <TextField
+                           name="category"
+                           label="Category"
+                           size="small"
+                           fullWidth
+                           type="text"
+                           variant="outlined"
+                           value={equipmentData.category}
+                           onChange={handleChange}
+                        />
+                     </Grid>
+                     <Grid size={{ xs: 6, md: 6 }}>
+                        <TextField
+                           name="quantity"
+                           label="Quantity"
+                           size="small"
+                           fullWidth
+                           type="number"
+                           variant="outlined"
+                           value={equipmentData.quantity}
+                           onChange={handleChange}
+                        />
+                     </Grid>
+                     <Grid size={{ xs: 6, md: 6 }}>
+                        <FormControl fullWidth>
+                           <InputLabel>Status</InputLabel>
+                           <Select
+                              name="status"
+                              label="Status"
+                              size="small"
+                              fullWidth
+                              type="text"
+                              variant="outlined"
+                              value={equipmentData.status}
+                              onChange={handleChange}
+                           >
+                              <MenuItem value={"Available"}>Available</MenuItem>
+                              <MenuItem value={"Serviceable"}>Serviceable</MenuItem>
+                              <MenuItem value={"Not Serviceable"}>Not Serviceable</MenuItem>
+                           </Select>
+                        </FormControl>
+                     </Grid>
+
+                     <Grid size={{ xs: 6, md: 6 }}>
+                        <TextField
+                           name="added_at"
+                           label="Added at"
+                           size="small"
+                           fullWidth
+                           type="date"
+                           variant="outlined"
+                           InputLabelProps={{ shrink: true }}
+                           value={equipmentData.added_at}
+                           onChange={handleChange}
+                        />
+                     </Grid>
                   </Grid>
 
-                  <Grid size={{ xs: 6, md: 6 }}>
-                     <TextField
-                        name="added_at"
-                        label="Added at"
-                        size="small"
-                        fullWidth
-                        type="date"
-                        variant="outlined"
-                        InputLabelProps={{ shrink: true }}
-                        value={equipmentData.added_at}
-                        onChange={handleChange}
-                     />
-                  </Grid>
-               </Grid>
+               }
                
                <Box sx={{ textAlign: "center", mt: 10 }}>
                   <Button 
                      type="submit"
-                     loading={isUpdating}
                      variant="contained"
+                     loading={isUpdating}
                      disabled={isUpdating}
                      sx={{
                         fontWeight: "bold",
@@ -226,6 +235,7 @@ export const UpdateEquipment = ({ open, onClose, inventoryId}) => {
                      { isUpdating ? "Updating..." : "UPDATE" }
                   </Button>
                </Box>
+
             </Box>
          </Paper>
       </Dialog>
