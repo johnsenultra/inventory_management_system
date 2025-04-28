@@ -120,8 +120,10 @@ export const Equipment = () => {
                { isOpen && <AddEquipment onClose={handleCloseEquipment} /> }
                
             </Box>
-
+            
+            {/* { isLoading && <Alert severity="error" sx={{ my: 2 }}>{isLoading}</Alert> } */}
             {success && <Alert severity="success" sx={{ my: 2 }}>{success}</Alert>}
+
          </Box>
          <TableContainer component={Paper} sx={{ boxShadow: 3, mt: 3 }}>
             <Table>
