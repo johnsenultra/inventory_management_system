@@ -12,13 +12,16 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@fontsource/open-sans": "^5.2.5",
     "@mui/material": "^6.4.7",
     "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/postcss": "^4.0.17",
+    "@tailwindcss/vite": "^4.1.4",
     "lucide-react": "^0.482.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.3.0"
+    "react-router-dom": "^7.3.0",
+    "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -30,8 +33,6 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.0.17",
     "vite": "^6.2.0"
   }
 }
