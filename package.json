@@ -13,6 +13,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/open-sans": "^5.2.5",
+    "@lucide/lab": "^0.1.2",
     "@mui/material": "^6.4.7",
     "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/postcss": "^4.0.17",
@@ -21,6 +22,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0",
+    "sonner": "^2.0.3",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
