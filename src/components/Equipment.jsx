@@ -20,7 +20,6 @@ import { useState, useEffect } from "react";
 import { AddEquipment } from "./AddEq";
 import { UpdateEquipment } from "./UpdateEq";
 
-
 export const Equipment = () => {
 
    const [inventory, setInventory] = useState([]);
@@ -30,7 +29,6 @@ export const Equipment = () => {
    const [error, setError] = useState(null);
    const [updateModalOpen, setUpdateModalOpen] = useState(false);
    const [selectedInventoryId, setSelectedInventoryId] = useState(null);
-   
 
    const fetchInventory = async () => {
       setIsLoading(true);
@@ -67,10 +65,12 @@ export const Equipment = () => {
 
    const handleDelete = async (id) => {
       
-      const confirmDelete = window.confirm("Are you sure you want to delete this item?")
-      if(!confirmDelete) return;
+      const isConfirmed = await confirm("Are you sure you want to delete this item?")
+      if(!isConfirmed) return;
 
       try {
+
+         
          const { error: supabaseError } = await supabase
          .from("equipment_inventory")
          .delete()
