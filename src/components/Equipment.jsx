@@ -13,12 +13,18 @@ import {
    Alert,
    Tooltip,
    LinearProgress,
+   Dialog,
+   DialogTitle,
+   DialogActions,
 } from "@mui/material"
 import { Trash2Icon, EditIcon } from "lucide-react";
 import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
 import { AddEquipment } from "./AddEq";
 import { UpdateEquipment } from "./UpdateEq";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
+// import { useConfirm } from "../hooks/useConfirm";
 
 export const Equipment = () => {
 
@@ -29,6 +35,13 @@ export const Equipment = () => {
    const [error, setError] = useState(null);
    const [updateModalOpen, setUpdateModalOpen] = useState(false);
    const [selectedInventoryId, setSelectedInventoryId] = useState(null);
+
+   // const  {
+   //    open,
+   //    requestDelete,
+   //    confirmDelete,
+   //    cancelDelete
+   // } = useConfirm();
 
    const fetchInventory = async () => {
       setIsLoading(true);
@@ -65,29 +78,55 @@ export const Equipment = () => {
 
    const handleDelete = async (id) => {
       
-      const isConfirmed = await confirm("Are you sure you want to delete this item?")
-      if(!isConfirmed) return;
-
-      try {
-
+      // const { isConfirmed } = await Swal.fire({
+      //    toast: true,
+      //    title: "Delete item",
+      //    text: "Are you sure you want to delete this item?",
+      //    icon: "warning",
+      //    showCancelButton: true,
+      //    confirmButtonText: "Delete!",
+      //    cancelButtonText: "Cancel!",
+      //    customClass: {
+      //       confirmButton: "btn btn-danger",
+      //       cancelButton: "btm btn-secondary"
+      //    }
+      // })
+      // if(!isConfirmed) return;
+      Swal.fire({
+         toast: true,
+         title: "Delete item",
+         text: "Are you sure you want to delete this item?",
+         icon: "warning",
+         showCancelButton: true,
+         confirmButtonText: "Delete",
+         cancelButtonText: "Cancel",
+         customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btm btn-secondary"
+         }
+      }).then( async (result) => {
+         if(result.isConfirmed) {
+            try {
          
-         const { error: supabaseError } = await supabase
-         .from("equipment_inventory")
-         .delete()
-         .eq('id', id)
-         
-         if(supabaseError) throw supabaseError;
-         
-         // Update the local state to remove the deleted item
-         setInventory((prev) => 
-            prev.filter((item) => item.id !== id)
-         );
-
-         setSucces("Item deleted successfully");
-         setTimeout(() => setSucces(null), 3000)
-      } catch (err) {
-         console.error("Delete error", err)
-      }
+               const { error: supabaseError } = await supabase
+               .from("equipment_inventory")
+               .delete()
+               .eq('id', id)
+               
+               if(supabaseError) throw supabaseError;
+               
+               // Update the local state to remove the deleted item
+               setInventory((prev) => 
+                  prev.filter((item) => item.id !== id)
+               );
+      
+               setSucces("Item deleted successfully");
+               setTimeout(() => setSucces(null), 3000)
+            } catch (err) {
+               console.error("Delete error", err)
+            }
+         }
+      })
    }
 
    const handleUpdateModal = (inventoryId) => {
@@ -155,6 +194,14 @@ export const Equipment = () => {
                               >
                                  <Trash2Icon size={24} />
                               </IconButton>
+                              {/* <Dialog open={open} onClose={cancelDelete}>
+                                 <DialogTitle>Are you sure you want to delete this item?</DialogTitle>
+                                 <DialogActions>
+                                    <Button onClick={cancelDelete}>Cancel</Button>
+                                    <Button onClick={() => confirmDelete(handleDelete)}>Delete</Button>
+                                 </DialogActions>
+                              </Dialog> */}
+
                            </Tooltip>
 
                            <Tooltip title="Edit" arrow>
