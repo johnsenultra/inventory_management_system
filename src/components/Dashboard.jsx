@@ -68,8 +68,8 @@ export const Dashboard = () => {
                            sx={{ boxShadow: 5, width: 275, borderRadius: 3, color: "#fff", backgroundColor: "#4453F2", }}
                         >
                            <CardContent>
-                              <Box sx={{ backgroundColor: "#fff", color: "#000", width: 35, p: "5px", borderRadius: 3   }}>
-                                 <Icon sx={{ p: 2 }} iconNode={crossSquare} size={25}/>
+                              <Box sx={{ backgroundColor: "#fff", color: "#000", width: 32.3, p: "5px", borderRadius: 3   }}>
+                                 <Icon sx={{ p: 2 }} iconNode={crossSquare} size={22}/>
                               </Box>
                               { error && ( <Alert severity="error" sx={{ m: 1 }}>{error}</Alert> )}
                               <Typography sx={{ mt: 1.5, fontSize: 15 }}>Total Equipment</Typography>
