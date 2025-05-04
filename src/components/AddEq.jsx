@@ -85,8 +85,7 @@ export const AddEquipment = ({ onClose }) => {
             <Typography sx={{ fontSize: "1.5rem" }}>Add Equipment</Typography>
          </DialogTitle>
 
-         <Paper
-            elevation={3}
+         <Box
             sx={{ 
                p: 2,
                width: 510, 
@@ -172,7 +171,7 @@ export const AddEquipment = ({ onClose }) => {
                   </Grid>
                </Grid>
 
-               <Box sx={{ textAlign: "center", mt: 15 }}>
+               <Box sx={{ textAlign: "center", mt: 8 }}>
                   <Button 
                      type="submit"
                      variant="contained"
@@ -191,8 +190,7 @@ export const AddEquipment = ({ onClose }) => {
                </Box>
             </Box>
          
-         </Paper>
-
+         </Box>
       </Dialog>
    )
 }
