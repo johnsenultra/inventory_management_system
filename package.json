@@ -23,6 +23,7 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0",
     "sonner": "^2.0.3",
+    "sweetalert2": "^11.19.1",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
